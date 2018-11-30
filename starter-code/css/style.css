@@ -40,21 +40,31 @@ input {
   margin: 0 5px;
 }
 .wrap{
-  margin:20px;
+  margin:20px 0;
+  width: 20%;
+}
+.input-box{
+display: flex;
+justify-content: space-between;
 }
 .center{
   text-align: center;
+  align-self: center;
 }
 .h1{
   text-align: center;
   padding-top:30px;
   padding-bottom:30px;
 }
+.content{
+  display: flex;
+  flex-direction: column;
+}
 .container{
   max-width: 1080px;
   width: 100%;
   margin: 0 auto;
   display:flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }

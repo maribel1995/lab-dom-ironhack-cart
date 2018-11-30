@@ -1,6 +1,5 @@
 
 function deleteItem(e){
-  console.log("oi");
   const delBtn = e.currentTarget;
   const container = delBtn.parentNode.parentNode;
   const content = container.parentNode;
@@ -8,19 +7,19 @@ function deleteItem(e){
   getTotalPrice();
 }
 
+function updatePriceByProduct(productPrice, index){
+  const quantity = document.getElementsByClassName('quantity')[index].value;
+  const price = document.getElementsByClassName('price')[index].innerHTML = parseFloat(quantity*productPrice).toFixed(2);
+  return {quantity: quantity, unitCost: productPrice, price:price};
+}
 function getPriceByProduct(){
-  const product = [];
-  const quantities = [...document.getElementsByClassName('quantity')].map((quantity,) => quantity.value);
-  const unitsCost = [...document.getElementsByClassName('unit-cost')].map(unit => unit.innerHTML.toString().split('$').join(''));
-  const prices = [...document.getElementsByClassName('price')];
-  for(let i = 0; i<quantities.length; i++){
-    product[i] = Object.assign({quantity:quantities[i]});
-    product[i].unitCost = unitsCost[i];
-    product[i].price  = (parseFloat(unitsCost[i])*quantities[i]).toFixed(2);
-    prices[i].innerHTML = `$${product[i].price}`;
-  }
-  console.log(product);
-  return product;
+  const products = [];
+  const unitCost = [...document.getElementsByClassName('unit-cost')];
+   unitCost.forEach((unit, i) => {
+    const product = updatePriceByProduct(unit.innerHTML.toString().split('$').join(''), i)
+    products.push(product);
+  });
+  return products;
 }
 
 function getTotalPrice() {
@@ -101,11 +100,14 @@ function createNewItem(){
   newItems.appendChild(container);
   const name = document.getElementById("new-item-name").value;
   const cost = document.getElementById("new-item-cost").value;
-  container.appendChild(createItemName(name));
-  container.appendChild(createitemUnitPrice(cost));
-  container.appendChild(createQuantityInput());
-  container.appendChild(createPrice());
-  container.appendChild(createDeleteButton());
+  
+  if(name != "" && cost != ""){
+    container.appendChild(createItemName(name));
+    container.appendChild(createitemUnitPrice(parseFloat(cost).toFixed(2)));
+    container.appendChild(createQuantityInput());
+    container.appendChild(createPrice());
+    container.appendChild(createDeleteButton());
+  }
 }
 
 window.onload = function(){
